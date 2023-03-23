@@ -1,0 +1,88 @@
+funcao impostoSobreSalario(quantia: real) : real
+
+inicio
+   se quantia < 3000 então
+      retorne 0.0
+   senão
+   se quantia < 5000 então
+      retorne quantia * 0.1
+   senão
+      retorne quantia * 0.2
+       fimse
+   fimse
+fimfuncao
+
+funcao impostoSobreServicos(quantia: real) : real
+inicio
+    retorne quantia * 0.15
+fimfuncao
+
+funcao impostoSobreGC(quantia: real) : real
+inicio
+    retorne quantia * 0.2
+fimfuncao
+
+funcao impostoBrutoTotal(salario: real; servicos: real; gc: real) : real
+var
+
+GuardaaValor : real
+inicio
+GuardaaValor <- impostoSobreSalario(salario) + impostoSobreServicos(servicos) + impostoSobreGC(gc)
+    retorne GuardaaValor + impostoSobreSalario(salario) + impostoSobreServicos(servicos) + impostoSobreGC(gc)
+fimfuncao
+
+funcao abatimento(salario: real; servicos: real; gc: real; gastosMedicos: real; gastosEducacionais: real) : real
+var
+valorImposto, valorAbatimento  : real
+
+inicio
+valorImposto <- impostoBrutoTotal(salario, servicos, gc)
+valorAbatimento <- 0.0
+   se gastosMedicos + gastosEducacionais > valorImposto * 0.3 então
+      valorAbatimento <- valorImposto * 0.3
+   senão
+      valorAbatimento <- gastosMedicos + gastosEducacionais
+  retorne valorAbatimento
+fimse
+fimfuncao
+
+Algoritmo "salario_liquido"
+
+Var
+
+salarioBruto, impostoBruto, impostoSalario, impostoServicos, PrestacaoServicos, gc, impostoGC, gastosMedicos, gastosEducacionais, ImpostoBrutoTotalMostra, abatimentoMostra, impostoDevido : real
+Inicio
+
+  // Leitura dos dados do contribuinte
+escreval("Digite os dados do contribuinte:")
+escreva("Renda anual com salário:")
+leia(salarioBruto)
+escreva("Renda anual com prestação de serviço:")
+leia(PrestacaoServicos)
+escreva("Renda anual com ganho de capital:")
+leia(gc)
+escreva("Gastos médicos:")
+leia(gastosMedicos)
+escreva("Gastos educacionais:")
+leia(gastosEducacionais)
+
+// Cálculo dos impostos e abatimento
+impostoSalario <- impostoSobreSalario(salarioBruto)
+escreval("Imposto sobre salário: ", impostoSalario:6:2)
+impostoServicos <- impostoSobreServicos(PrestacaoServicos)
+escreval("Imposto sobre serviços: ", impostoServicos:6:2)
+impostoGC <- impostoSobreGC(gc)
+escreval("Imposto sobre ganho de capital: ", impostoGC:6:2)
+
+ImpostoBrutoTotalMostra <- impostoBrutoTotal(salarioBruto, PrestacaoServicos, gc, gastosMedicos, gastosEducacionais)
+escreval("Imposto bruto total ", ImpostoBrutoTotalMostra:6:2)
+
+abatimentoMostra <- impostoBrutoTotal(salarioBruto, PrestacaoServicos, gc, gastosMedicos, gastosEducacionais)
+escreval("Abatimento ", abatimentoMostra:6:2)
+
+impostoDevido <- ImpostoBrutoTotalMostra - abatimentoMostra
+escreval("Imposto devido ", impostoDevido:6:2)
+
+
+
+Fimalgoritmo
